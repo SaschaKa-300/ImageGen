@@ -4,9 +4,11 @@ import os
 
 api = replicate.Client(api_token=st.secrets["replicate_token"])
 
-st.title("My AI Model")
+st.title("Matthias Image Generator")
+st.subheader("The trigger word for this model is MAPI. Be sure to include it in your prompt.")
+st.markdown('Example prompt "MAPI as head chef in a kitchen". [Example Output](https://replicate.com/p/j28y7y6ta5rmc0ckpx9sp567fm)', unsafe_allow_html=True)
 
-user_input = st.text_input("Enter your text:")
+user_input = st.text_input("Enter your prompt:")
 
 if st.button("Generate"):
     with st.spinner("Generating..."):
