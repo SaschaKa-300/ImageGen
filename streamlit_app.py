@@ -32,13 +32,12 @@ def generate_images(prompt, label):
     st.markdown(f"## {label}")
 
     for model, alias in models.items():
-        with st.spinner(f"Generating image with Model {alias}..."):  # Top-level spinner
+        with st.spinner(f"Generating image with {alias}..."):  # Top-level spinner
             placeholder = st.empty()  # Create a placeholder for image loading spinner
 
             try:
                 # Show a local spinner while waiting for the image
                 with placeholder.container():
-                    st.markdown(f"**{alias} is processing...**")
                     time.sleep(0.5)  # Small delay to show the spinner
 
                 output = repl_client.run(
@@ -102,8 +101,9 @@ if st.button("Generate"):
     with st.spinner("Optimizing prompt..."):
         optimized_prompt = optimize_prompt(user_input)
         st.markdown("### Optimized Prompt")
-        st.markdown(f"> {optimized_prompt}")  # Quoted text block for readability
-
+        # Format multi-line quoted text
+        quoted_prompt = "\n".join([f"> {line}" for line in optimized_prompt.split("\n")])
+        st.markdown(quoted_prompt)  # Display properly formatted quote
 
     with st.spinner("Generating images with optimized prompt..."):
         generate_images(optimized_prompt, "Optimized Prompt Results")
