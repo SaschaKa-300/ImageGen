@@ -74,7 +74,7 @@ def optimize_prompt(user_prompt):
             ]
         )
         
-        return response["choices"][0]["message"]["content"].strip()
+        return response.choices[0].message.content.strip()
     except Exception as e:
         st.error(f"Error optimizing prompt: {str(e)}")
         return user_prompt  # Fallback to original prompt if API fails
