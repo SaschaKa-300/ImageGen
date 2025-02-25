@@ -2,7 +2,7 @@ import streamlit as st
 import replicate
 import os
 
-os.environ["REPLICATE_API_TOKEN"] = ${{ secrets.RUN_PROJECT }}
+os.environ["REPLICATE_API_TOKEN"] = ${{ secrets.REPLICATE_TOKEN }}
 api = replicate.Client(api_token=os.environ["REPLICATE_API_TOKEN"])
 
 st.title("My AI Model")
