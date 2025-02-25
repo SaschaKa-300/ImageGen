@@ -14,7 +14,6 @@ if st.button("Generate"):
         output = api.run(
             "saschaka-300/matthias-model:9388b390fca72d01d157be9e1e2a4c4ec6664dde9c5b8c115a4432d919a68b79",
             input={
-                "image": "https://w-gh.de/templates/yootheme/cache/wgl_wgh-223-6b6fdaaa.jpeg",
                 "model": "dev",
                 "prompt": user_input,
                 "go_fast": False,
