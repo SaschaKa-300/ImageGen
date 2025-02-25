@@ -99,9 +99,11 @@ if st.button("Generate"):
     st.markdown("---")
     st.markdown("---")
 
-    with st.spinner("Optimizing prompt for photorealism..."):
+    with st.spinner("Optimizing prompt..."):
         optimized_prompt = optimize_prompt(user_input)
-        st.markdown(f"**Optimized Prompt:** {optimized_prompt}")
+        st.markdown("### Optimized Prompt")
+        st.markdown(f"> {optimized_prompt}")  # Quoted text block for readability
+
 
     with st.spinner("Generating images with optimized prompt..."):
         generate_images(optimized_prompt, "Optimized Prompt Results")
