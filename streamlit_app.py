@@ -2,6 +2,7 @@ import streamlit as st
 import replicate
 from openai import OpenAI
 import os
+import time
 
 # Set up API clients
 repl_client = replicate.Client(api_token=st.secrets["replicate_token"])
@@ -107,100 +108,3 @@ if st.button("Generate"):
 
 
 
-
-import streamlit as st
-import replicate
-import openai
-import os
-import time
-
-# Set up API clients
-api = replicate.Client(api_token=st.secrets["replicate_token"])
-openai.api_key = st.secrets["openai_api_key"]
-
-st.title("Matthias Image Generator")
-st.subheader("Generate stunning AI images in seconds")
-st.markdown('Enter a creative prompt below to generate a unique, AI-powered image. [Learn more](https://example.com)', unsafe_allow_html=True)
-
-user_input = st.text_input("Enter your prompt:")
-
-# Dictionary mapping models to human-readable aliases
-models = {
-    "saschaka-300/matthias-model:9388b390fca72d01d157be9e1e2a4c4ec6664dde9c5b8c115a4432d919a68b79": "Matthias V1",
-    "saschaka-300/matthias-model:version2": "Matthias V2",
-    "saschaka-300/matthias-model:version3": "Matthias V3",
-    "saschaka-300/matthias-model:version4": "Matthias V4",
-    "saschaka-300/matthias-model:version5": "Matthias V5",
-    "saschaka-300/matthias-model:version6": "Matthias V6"
-}
-
-def generate_images(prompt, label):
-    """ Generates images using all models and displays them immediately with individual spinners """
-    st.markdown(f"## {label}")
-
-    for model, alias in models.items():
-        with st.spinner(f"Generating image with Model {alias}..."):  # Top-level spinner
-            placeholder = st.empty()  # Create a placeholder for image loading spinner
-
-            try:
-                # Show a local spinner while waiting for the image
-                with placeholder.container():
-                    st.markdown(f"**{alias} is processing...**")
-                    time.sleep(0.5)  # Small delay to show the spinner
-
-                output = api.run(
-                    model,
-                    input={
-                        "model": "dev",
-                        "prompt": prompt,
-                        "go_fast": False,
-                        "lora_scale": 1,
-                        "megapixels": "1",
-                        "num_outputs": 1,
-                        "aspect_ratio": "1:1",
-                        "output_format": "jpg",
-                        "guidance_scale": 3,
-                        "output_quality": 100,
-                        "prompt_strength": 0.81,
-                        "extra_lora_scale": 1,
-                        "num_inference_steps": 28
-                    }
-                )
-
-                if isinstance(output, list) and len(output) > 0:
-                    image_url = str(output[0])
-                    placeholder.image(image_url, caption=f"Generated Image with Model {alias}", use_container_width=True)
-                else:
-                    placeholder.error(f"Failed to generate image with Model {alias}.")
-
-            except Exception as e:
-                placeholder.error(f"Error generating image with {alias}: {str(e)}")
-
-def optimize_prompt(user_prompt):
-    """ Optimizes a prompt using ChatGPT for photorealistic AI image generation """
-    try:
-        response = openai.ChatCompletion.create(
-            model="gpt-4",
-            messages=[
-                {"role": "system", "content": "Optimize the following prompt for AI image generation. The goal is to make it highly photorealistic while keeping the essence of the original prompt."},
-                {"role": "user", "content": user_prompt}
-            ]
-        )
-        return response["choices"][0]["message"]["content"].strip()
-    except Exception as e:
-        st.error(f"Error optimizing prompt: {str(e)}")
-        return user_prompt  # Fallback to original prompt if API fails
-
-if st.button("Generate"):
-    with st.spinner("Generating images with original prompt..."):
-        generate_images(user_input, "Original Prompt Results")
-
-    # Add a visible divider between original and optimized outputs
-    st.markdown("---")
-
-    with st.spinner("Optimizing prompt for photorealism..."):
-        optimized_prompt = optimize_prompt(user_input)
-        st.markdown(f"**Optimized Prompt:** {optimized_prompt}")
-
-    with st.spinner("Generating images with optimized prompt..."):
-        generate_images(optimized_prompt, "Optimized Prompt Results")
