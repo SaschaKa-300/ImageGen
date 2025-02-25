@@ -60,13 +60,14 @@ def generate_images(prompt, label):
 def optimize_prompt(user_prompt):
     """ Optimizes a prompt using ChatGPT for photorealistic AI image generation """
     try:
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model="gpt-4",
             messages=[
                 {"role": "system", "content": "Optimize the following prompt for AI image generation. The goal is to make it highly photorealistic while keeping the essence of the original prompt."},
                 {"role": "user", "content": user_prompt}
             ]
         )
+        
         return response["choices"][0]["message"]["content"].strip()
     except Exception as e:
         st.error(f"Error optimizing prompt: {str(e)}")
