@@ -8,7 +8,7 @@ api = replicate.Client(api_token=st.secrets["replicate_token"])
 openai.api_key = st.secrets["openai_api_key"]
 
 st.title("Matthias Image Generator")
-st.subheader("The trigger word for this model is MAPI. Be sure to include it in your prompt.")
+st.subheader("The trigger word for this model is 'MAPI'. Be sure to include it in your prompt.")
 st.markdown('Example prompt "MAPI as head chef in a kitchen". [Example Output](https://replicate.delivery/xezq/2tE3tIhoQcKDDJAaO9yBcuT8t0kD82C9tpA70jo5Sppoie8JA/out-0.jpg)', unsafe_allow_html=True)
 
 user_input = st.text_input("Enter your prompt:")
@@ -18,9 +18,9 @@ user_input = st.text_input("Enter your prompt:")
 models = {
     "saschaka-300/matthias-model:9388b390fca72d01d157be9e1e2a4c4ec6664dde9c5b8c115a4432d919a68b79": "Model 1 (Classic)",
     "saschaka-300/matthias1:870e066ebab03a42b5e340a26d7ca2e1a2c6d23aeeb9c7713bc314cc4a423c35": "Model 2",
-    "saschaka-300/matthias2:1c0bd0f210fdc4f5377dddf0ad68c7c08f4ac93c5c0635eef09d713f9cd18c0d": "Model 3",
-    "saschaka-300/matthias3:c04ea86c96d1118f7adc6fd0fb63a8bad113b8066e52126952c254e4c9f29842": "Model 4",
-    "saschaka-300/matthias3morestepsandrank:ea0c55919c10a114b9760662e874e5b8dbdf25d624e6eae2de74b39222564c99": "Model 5 (same images as 4, but longer training)"
+    #"saschaka-300/matthias2:1c0bd0f210fdc4f5377dddf0ad68c7c08f4ac93c5c0635eef09d713f9cd18c0d": "Model 3",
+    #"saschaka-300/matthias3:c04ea86c96d1118f7adc6fd0fb63a8bad113b8066e52126952c254e4c9f29842": "Model 4",
+    #"saschaka-300/matthias3morestepsandrank:ea0c55919c10a114b9760662e874e5b8dbdf25d624e6eae2de74b39222564c99": "Model 5 (same images as 4, but longer training)"
 }
 
 
@@ -63,7 +63,12 @@ def optimize_prompt(user_prompt):
         response = client.chat.completions.create(
             model="gpt-4",
             messages=[
-                {"role": "system", "content": "Optimize the following prompt for AI image generation. The goal is to make it highly photorealistic while keeping the essence of the original prompt."},
+                {"role": "system", "content": """Optimize the following prompt for AI image generation. The goal is to make it highly photorealistic while keeping the essence of the original prompt.
+                Some general tips:
+                -be precise, detailed and direct
+                -describe not only the content of the image but also such details as tone, style, color palette, and point of view,  
+                -for photorealistic images, include the name of the device used (e.g., “shot on iPhone 16”), aperture, lens, and shot type.
+                """},
                 {"role": "user", "content": user_prompt}
             ]
         )
