@@ -41,7 +41,7 @@ def generate_images(prompt, label):
                     st.markdown(f"**{alias} is processing...**")
                     time.sleep(0.5)  # Small delay to show the spinner
 
-                output = api.run(
+                output = repl_client.run(
                     model,
                     input={
                         "model": "dev",
@@ -68,6 +68,7 @@ def generate_images(prompt, label):
 
             except Exception as e:
                 placeholder.error(f"Error generating image with {alias}: {str(e)}")
+
 
 def optimize_prompt(user_prompt):
     """ Optimizes a prompt using ChatGPT for photorealistic AI image generation """
