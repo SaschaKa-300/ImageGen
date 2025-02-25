@@ -12,7 +12,7 @@ user_input = st.text_input("Enter your prompt:")
 
 
 # List of different model versions
-model_versions = {
+models = {
     "saschaka-300/matthias-model:9388b390fca72d01d157be9e1e2a4c4ec6664dde9c5b8c115a4432d919a68b79": "Model 1 (Classic)",
     "saschaka-300/matthias1:870e066ebab03a42b5e340a26d7ca2e1a2c6d23aeeb9c7713bc314cc4a423c35": "Model 2",
     "saschaka-300/matthias2:1c0bd0f210fdc4f5377dddf0ad68c7c08f4ac93c5c0635eef09d713f9cd18c0d": "Model 3",
