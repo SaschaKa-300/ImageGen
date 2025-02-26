@@ -101,9 +101,10 @@ def optimize_prompt(user_prompt):
             messages=[
                 {"role": "system", "content": """Optimize the following prompt for AI image generation. The goal is to make it highly photorealistic while keeping the essence of the original prompt.
                 Some general tips:
-                -be precise, detailed and direct
+                -be precise, detailed and direct.
+                -MAPI is the trigger word for the person which shall be the center of the photo. Use it accordingly - It needs to be included.
                 -describe not only the content of the image but also such details as tone, style, color palette, and point of view. but not too detailed. don't add other people than in the original prompt.
-                -for photorealistic images, include the name of the device used (e.g., “shot on iPhone 16”)
+                -for photorealistic images, include the name of the device used (e.g., “shot on iPhone 16”).
                 """},
                 {"role": "user", "content": user_prompt}
             ]
