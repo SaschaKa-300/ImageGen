@@ -77,7 +77,7 @@ def generate_images(prompt, label):
                         "output_format": "jpg",
                         "guidance_scale": 3,
                         "output_quality": 100,
-                        "prompt_strength": 0.81,
+                        "prompt_strength": 0.8,
                         "extra_lora_scale": 1,
                         "num_inference_steps": 28
                     }
@@ -102,7 +102,7 @@ def optimize_prompt(user_prompt):
                 {"role": "system", "content": """Optimize the following prompt for AI image generation. The goal is to make it highly photorealistic while keeping the essence of the original prompt.
                 Some general tips:
                 -be precise, detailed and direct
-                -describe not only the content of the image but also such details as tone, style, color palette, and point of view. but not too detailed.
+                -describe not only the content of the image but also such details as tone, style, color palette, and point of view. but not too detailed. don't add other people than in the original prompt.
                 -for photorealistic images, include the name of the device used (e.g., “shot on iPhone 16”)
                 """},
                 {"role": "user", "content": user_prompt}
@@ -114,12 +114,12 @@ def optimize_prompt(user_prompt):
         st.error(f"Error optimizing prompt: {str(e)}")
         return user_prompt  # Fallback to original prompt if API fails
 
+
 if st.button("Generate"):
     with st.spinner("Generating images with original prompt..."):
         generate_images(user_input, "Original Prompt Results")
 
     # Add a visible divider between original and optimized outputs
-    st.markdown("---")
     st.markdown("---")
 
     with st.spinner("Optimizing prompt..."):
